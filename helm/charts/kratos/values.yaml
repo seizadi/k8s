@@ -75,27 +75,139 @@ kratos:
   autoMigrate: false
 
 #  You can add multiple identity schemas here
-#  identitySchemas:
-#    "identity.default.schema.json": |
-#      {
-#        // ...
-#      }
-#    "identity.email.schema.json": |
-#      {
-#        // ...
-#      }
+  identitySchemas:
+    "identity.default.schema.json": |
+      {
+        "$id": "https://schemas.ory.sh/presets/kratos/quickstart/email-password/identity.schema.json",
+        "$schema": "http://json-schema.org/draft-07/schema#",
+        "title": "Person",
+        "type": "object",
+        "properties": {
+          "traits": {
+            "type": "object",
+            "properties": {
+              "email": {
+                "type": "string",
+                "format": "email",
+                "title": "E-Mail",
+                "minLength": 3,
+                "ory.sh/kratos": {
+                  "credentials": {
+                    "password": {
+                      "identifier": true
+                    }
+                  },
+                  "verification": {
+                    "via": "email"
+                  },
+                  "recovery": {
+                    "via": "email"
+                  }
+                }
+              },
+              "name": {
+                "type": "object",
+                "properties": {
+                  "first": {
+                    "type": "string"
+                  },
+                  "last": {
+                    "type": "string"
+                  }
+                }
+              }
+            },
+            "required": [
+              "email"
+            ],
+            "additionalProperties": false
+          }
+        }
+      }
+    # "identity.email.schema.json": |
+    #  {
+    #    // ...
+    #  }
 
   config:
-    courier:
-      smtp: {}
+    dsn: memory
 
     serve:
       public:
         port: 4433
+        base_url: http://127.0.0.1:4433/
+        cors:
+          enabled: true
       admin:
         port: 4434
+        base_url: http://kratos:4434/
+
+    selfservice:
+      default_browser_return_url: http://127.0.0.1:4455/
+      whitelisted_return_urls:
+        - http://127.0.0.1:4455
+
+      methods:
+        password:
+          enabled: true
+
+      flows:
+        error:
+          ui_url: http://127.0.0.1:4455/error
+
+        settings:
+          ui_url: http://127.0.0.1:4455/settings
+          privileged_session_max_age: 15m
+
+        recovery:
+          enabled: true
+          ui_url: http://127.0.0.1:4455/recovery
+
+        verification:
+          enabled: true
+          ui_url: http://127.0.0.1:4455/verify
+          after:
+            default_browser_return_url: http://127.0.0.1:4455/
+
+        logout:
+          after:
+            default_browser_return_url: http://127.0.0.1:4455/auth/login
+
+        login:
+          ui_url: http://127.0.0.1:4455/auth/login
+          lifespan: 10m
+
+        registration:
+          lifespan: 10m
+          ui_url: http://127.0.0.1:4455/auth/registration
+          after:
+            password:
+              hooks:
+                -
+                  hook: session
+
+    log:
+      level: debug
+      format: text
+      leak_sensitive_values: true
 
     secrets: {}
+
+    hashers:
+      argon2:
+        parallelism: 1
+        memory: 131072
+        iterations: 2
+        salt_length: 16
+        key_length: 16
+
+    identity:
+      default_schema_url: file:///etc/config/kratos/identity.schema.json
+
+    courier:
+      smtp:
+        connection_uri: smtps://test:test@mailslurper:1025/?skip_ssl_verify=true
+
 
 deployment:
   resources: {}
