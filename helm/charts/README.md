@@ -95,4 +95,56 @@ Now I get SQL server error:
 
 Look like it expects a sqlite server to be configured!
 
+The problem was that the database was not migrated, set the configuration to auto-migrate.
 
+```bash
+  autoMigrate: true
+```
+
+Now I get error with ui-node:
+
+```bash
+
+  "message": "getaddrinfo ENOTFOUND kratos",
+  "name": "Error",
+  "stack": "Error: getaddrinfo ENOTFOUND kratos\n    at GetAddrInfoReqWrap.onlookup [as oncomplete] (dns.js:64:26)",
+  "config": {
+    "url": "http://kratos:4433/self-service/login/flows?id=79dc365e-890c-4229-9845-95767b93dae3",
+    "method": "get",
+    "headers": {
+      "Accept": "application/json, text/plain, */*",
+      "User-Agent": "axios/0.19.2"
+    },
+    "transformRequest": [
+      null
+    ],
+    "transformResponse": [
+      null
+    ],
+    "timeout": 0,
+    "xsrfCookieName": "XSRF-TOKEN",
+    "xsrfHeaderName": "X-XSRF-TOKEN",
+    "maxContentLength": -1
+  },
+  "code": "ENOTFOUND"
+}
+```
+
+The problem is that the DNS name for service is not set properly for kubernetes, so change them to proper values:
+
+For ui-node:
+
+```bash
+# Set this to ORY Kratos's Admin URL
+kratosAdminUrl: "http://kratos-admin.ory.svc.cluster.local:4434"
+
+# Set this to ORY Kratos's public URL
+kratosPublicUrl: "http://kratos-public.ory.svc.cluster.local:4433"
+```
+
+For Kratos config:
+```bash
+      admin:
+        port: 4434
+        base_url: http://kratos-admin.ory.svc.culster.local:4434/
+```
