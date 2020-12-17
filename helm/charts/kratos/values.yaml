@@ -71,8 +71,8 @@ ingress:
     #      - chart-example.local
 
 kratos:
-  development: false
-  autoMigrate: false
+  development: true
+  autoMigrate: true
 
 #  You can add multiple identity schemas here
   identitySchemas:
