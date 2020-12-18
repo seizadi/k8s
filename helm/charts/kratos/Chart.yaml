@@ -1,6 +1,11 @@
 apiVersion: v2
-appVersion: "0.5.2-alpha.1-sqlite"
+appVersion: "v0.5.5-alpha.1"
 description: A ORY Kratos Helm chart for Kubernetes
 name: kratos
 version: 0.4.12
 type: application
+
+dependencies:
+- name: postgresql
+  version: "10.2.0"
+  repository: "https://charts.bitnami.com/bitnami"

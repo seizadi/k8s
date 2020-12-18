@@ -6,7 +6,7 @@ replicaCount: 1
 
 image:
   repository: oryd/kratos
-  tag: v0.5.2-alpha.1-sqlite
+  tag: v0.5.5-alpha.1
   pullPolicy: IfNotPresent
 
 imagePullSecrets: []
@@ -70,7 +70,14 @@ ingress:
     #    hosts:
     #      - chart-example.local
 
-kratos:
+# Postgres Database
+postgresql:
+  # service.port: 5432
+  postgresqlDatabase: kratos
+  postgresqlUsername: kratos
+  postgresqlPassword: secret
+
+kratos:  
   development: true
   autoMigrate: true
 
@@ -130,7 +137,9 @@ kratos:
     #  }
 
   config:
-    dsn: memory
+    # TODO - Need to move dsn to template so that we can eliminate hard-coded values like
+    # host, user, password and secret here.
+    dsn: postgres://kratos:secret@kratos-postgresql:5432/kratos?sslmode=disable&max_conns=20&max_idle_conns=4
 
     serve:
       public:
@@ -146,6 +155,7 @@ kratos:
       default_browser_return_url: http://127.0.0.1:4455/
       whitelisted_return_urls:
         - http://127.0.0.1:4455
+        - http://kratos-ui:4455
 
       methods:
         password:
