@@ -6,7 +6,7 @@ replicaCount: 1
 
 image:
   repository: oryd/kratos-selfservice-ui-node
-  tag: latest
+  tag: v0.5.0-alpha.1
   pullPolicy: IfNotPresent
 
 imagePullSecrets: []
@@ -67,10 +67,10 @@ deployment:
 affinity: {}
 
 # Set this to ORY Kratos's Admin URL
-kratosAdminUrl: "http://kratos-admin.ory.svc.cluster.local:4434"
+kratosAdminUrl: "http://kratos-admin.ory.svc.cluster.local"
 
 # Set this to ORY Kratos's public URL
-kratosPublicUrl: "http://kratos-public.ory.svc.cluster.local:4433"
+kratosPublicUrl: "http://kratos-public.ory.svc.cluster.local"
 
 # Set this to ORY Kratos's public URL accessible from the outside world.
 kratosBrowserUrl: "http://127.0.0.1:4433"
