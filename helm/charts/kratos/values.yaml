@@ -155,7 +155,7 @@ kratos:
       default_browser_return_url: http://127.0.0.1:4455/
       whitelisted_return_urls:
         - http://127.0.0.1:4455
-        - http://localhost:3000
+        - http://127.0.0.1:3000
 
       methods:
         password:
@@ -187,13 +187,13 @@ kratos:
           ui_url: http://127.0.0.1:4455/auth/login
           lifespan: 8h
           after:
-            default_browser_return_url: http://localhost:3000
+            default_browser_return_url: http://127.0.0.1:3000
 
         registration:
           lifespan: 8h
           ui_url: http://127.0.0.1:4455/auth/registration
           after:
-            default_browser_return_url: http://localhost:3000
+            default_browser_return_url: http://127.0.0.1:3000
             password:
               hooks:
                 -
