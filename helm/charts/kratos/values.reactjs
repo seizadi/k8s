@@ -152,9 +152,9 @@ kratos:
         base_url: http://kratos-admin.ory.svc.cluster.local/
 
     selfservice:
-      default_browser_return_url: http://127.0.0.1:4455/
+      default_browser_return_url: http://127.0.0.1:3000/
       whitelisted_return_urls:
-        - http://127.0.0.1:4455
+        - http://127.0.0.1:3000
 
       methods:
         password:
@@ -162,38 +162,37 @@ kratos:
 
       flows:
         error:
-          ui_url: http://127.0.0.1:4455/error
+          ui_url: http://127.0.0.1:3000/error
 
         settings:
-          ui_url: http://127.0.0.1:4455/settings
+          ui_url: http://127.0.0.1:3000/settings
           privileged_session_max_age: 15m
 
         recovery:
           enabled: true
-          ui_url: http://127.0.0.1:4455/recovery
+          ui_url: http://127.0.0.1:3000/recovery
 
         verification:
           enabled: true
-          ui_url: http://127.0.0.1:4455/verify
+          ui_url: http://127.0.0.1:3000/verify
           after:
-            default_browser_return_url: http://127.0.0.1:4455/
+            default_browser_return_url: http://127.0.0.1:3000/
 
         logout:
           after:
-            default_browser_return_url: http://127.0.0.1:4455/auth/login
+            default_browser_return_url: http://127.0.0.1:3000/auth/login
 
         login:
-          ui_url: http://127.0.0.1:4455/auth/login
+          ui_url: http://127.0.0.1:3000/auth/login
           lifespan: 8h
-          after:
-            default_browser_return_url: http://127.0.0.1:4455/dashboard
 
         registration:
           lifespan: 8h
-          ui_url: http://127.0.0.1:4455/auth/registration
+          ui_url: http://127.0.0.1:3000/auth/registration
           after:
-            default_browser_return_url: http://127.0.0.1:4455/dashboard
-
+            password:
+              hooks:
+                - hook: session
 
     log:
       level: debug
