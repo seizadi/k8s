@@ -71,10 +71,10 @@ deployment:
 affinity: {}
 
 # Set this to ORY Kratos's Admin URL
-kratosAdminUrl: "http://site.local/idp-admin"
+kratosAdminUrl: "http://kratos-admin"
 
 # Set this to ORY Kratos's public URL
-kratosPublicUrl: "http://site.local/idp"
+kratosPublicUrl: "http://kratos-public"
 
 # Set this to ORY Kratos's public URL accessible from the outside world.
 kratosBrowserUrl: "http://site.local/idp"

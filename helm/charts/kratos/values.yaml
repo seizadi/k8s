@@ -83,7 +83,7 @@ postgresql:
   postgresqlPassword: secret
 
 kratos:  
-  development: false
+  development: true
   autoMigrate: true
 
 #  You can add multiple identity schemas here
