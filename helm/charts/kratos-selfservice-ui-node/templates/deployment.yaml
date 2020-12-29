@@ -54,6 +54,15 @@ spec:
             name: BASE_URL
             value: {{ .Values.baseUrl | quote }}
           -
+            name: PATH_PREFIX
+            value: {{ .Values.pathPrefix | quote }}
+          -
+            name: STATIC_CONTENT_URL
+            value: {{ .Values.staticContentUrl | quote }}
+          -
+            name: CDN
+            value: {{ .Values.cdn | quote }}
+          -
             name: JWKS_URL
             value: {{ .Values.jwksUrl | quote }}
           -

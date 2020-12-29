@@ -25,7 +25,7 @@ service:
     # kubernetes.io/tls-acme: "true"
   public:
     enabled: true
-    type: ClusterIP
+    type: NodePort
     port: 80
     # If you do want to specify annotations, uncomment the following
     # lines, adjust them as necessary, and remove the curly braces after 'annotations:'.
@@ -41,29 +41,34 @@ secret:
 
 ingress:
   admin:
-    enabled: false
-    annotations: {}
+    enabled: true
+    annotations:
       # kubernetes.io/ingress.class: nginx
       # kubernetes.io/tls-acme: "true"
+      # rewrite annotation to remove /idp-admin prefix route
+      nginx.ingress.kubernetes.io/rewrite-target: /$2
+
     hosts:
-      - host: kratos.admin.local.com
+      - host: site.local
         paths:
-          - /
+          - /idp-admin(/|$)(.*)
 
     tls: []
     #  - secretName: chart-example-tls
     #    hosts:
     #      - chart-example.local
   public:
-    enabled: false
-    annotations: {}
-    # kubernetes.io/ingress.class: nginx
-    # kubernetes.io/tls-acme: "true"
+    enabled: true
+    annotations:
+      # kubernetes.io/ingress.class: nginx
+      # kubernetes.io/tls-acme: "true"
+      # rewrite annotation to remove /idp prefix route
+      nginx.ingress.kubernetes.io/rewrite-target: /$2
     hosts:
       -
-        host: kratos.public.local.com
+        host: site.local
         paths:
-          - /
+          - /idp(/|$)(.*)
 
     tls: []
     #  - secretName: chart-example-tls
@@ -144,7 +149,7 @@ kratos:
     serve:
       public:
         port: 4433
-        base_url: http://127.0.0.1:4433/
+        base_url: http://site.local/idp
         cors:
           enabled: true
       admin:
@@ -152,9 +157,10 @@ kratos:
         base_url: http://kratos-admin.ory.svc.cluster.local/
 
     selfservice:
-      default_browser_return_url: http://127.0.0.1:4455/
+      default_browser_return_url: http://site.local/sso
       whitelisted_return_urls:
-        - http://127.0.0.1:4455
+        - http://site.local
+        - http://site.local/sso
 
       methods:
         password:
@@ -162,37 +168,37 @@ kratos:
 
       flows:
         error:
-          ui_url: http://127.0.0.1:4455/error
+          ui_url: http://site.local/sso/error
 
         settings:
-          ui_url: http://127.0.0.1:4455/settings
+          ui_url: http://site.local/sso/settings
           privileged_session_max_age: 15m
 
         recovery:
           enabled: true
-          ui_url: http://127.0.0.1:4455/recovery
+          ui_url: http://site.local/sso/recovery
 
         verification:
           enabled: true
-          ui_url: http://127.0.0.1:4455/verify
+          ui_url: http://site.local/sso/verify
           after:
-            default_browser_return_url: http://127.0.0.1:4455/
+            default_browser_return_url: http://site.local/sso
 
         logout:
           after:
-            default_browser_return_url: http://127.0.0.1:4455/auth/login
+            default_browser_return_url: http://site.local/sso/auth/login
 
         login:
-          ui_url: http://127.0.0.1:4455/auth/login
+          ui_url: http://site.local/sso/auth/login
           lifespan: 8h
           after:
-            default_browser_return_url: http://127.0.0.1:4455/dashboard
+            default_browser_return_url: http://site.local/sso/dashboard
 
         registration:
           lifespan: 8h
-          ui_url: http://127.0.0.1:4455/auth/registration
+          ui_url: http://site.local/sso/auth/registration
           after:
-            default_browser_return_url: http://127.0.0.1:4455/dashboard
+            default_browser_return_url: http://site.local/sso/dashboard
 
 
     log:
