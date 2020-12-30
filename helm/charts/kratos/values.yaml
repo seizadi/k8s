@@ -41,7 +41,7 @@ secret:
 
 ingress:
   admin:
-    enabled: true
+    enabled: false
     annotations:
       # kubernetes.io/ingress.class: nginx
       # kubernetes.io/tls-acme: "true"
@@ -154,7 +154,7 @@ kratos:
           enabled: true
       admin:
         port: 4434
-        base_url: http://kratos-admin.ory.svc.cluster.local/
+        base_url: http://kratos-admin
 
     selfservice:
       default_browser_return_url: http://site.local/sso

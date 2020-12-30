@@ -149,7 +149,7 @@ kratos:
           enabled: true
       admin:
         port: 4434
-        base_url: http://kratos-admin.ory.svc.cluster.local/
+        base_url: http://kratos-admin
 
     selfservice:
       default_browser_return_url: http://127.0.0.1:80/sso

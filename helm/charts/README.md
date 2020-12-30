@@ -136,15 +136,15 @@ For ui-node:
 
 ```bash
 # Set this to ORY Kratos's Admin URL
-kratosAdminUrl: "http://kratos-admin.ory.svc.cluster.local:4434"
+kratosAdminUrl: "http://kratos-admin:4434"
 
 # Set this to ORY Kratos's public URL
-kratosPublicUrl: "http://kratos-public.ory.svc.cluster.local:4433"
+kratosPublicUrl: "http://kratos-public:4433"
 ```
 
 For Kratos config:
 ```bash
       admin:
         port: 4434
-        base_url: http://kratos-admin.ory.svc.culster.local:4434/
+        base_url: http://kratos-admin:4434/
 ```
